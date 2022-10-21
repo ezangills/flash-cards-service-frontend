@@ -1,23 +1,15 @@
-import logo from './logo.svg';
-import './App.css';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import { useState } from 'react'
+import Verify from './components/Verify';
 
-function App() {
+const App = () => {
+  const [state, setState] = useState('openSignInPage')
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='page'>
+      {state === 'openSignInPage' && <Login openapp={() => setState('openAppPage') /* Here if we get error the state should be set to verify and ask back to send code to email again */ } signup={() => setState('openSignUpPage') } />}
+      {state === 'openSignUpPage' && <Signup signin={() => setState('openSignInPage') } verify={() => setState('openVerifyPage') /* Verify page will open only if registration was successful, otherwise show error message */ } />}
+      {state === 'openVerifyPage' && <Verify enter={() => setState('openSignInPage') /* Open signin page only on successful verification, otherwise error message */ } />}
     </div>
   );
 }
